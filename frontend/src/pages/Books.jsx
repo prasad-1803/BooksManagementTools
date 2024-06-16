@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
+import { CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell,CButton } from '@coreui/react';
 const Books = () => {
     const [books,setBooks]=useState([])
     useEffect(()=>{
@@ -18,25 +19,51 @@ const Books = () => {
 
     },[])
   return (
-    <div>
-        <h1>Books Management Tools</h1>
+    <div className='home'>
+        <h1>Books Management Tool</h1>
 
-        <div className='Books'>
-            
-          {books.map( (book) =>  (
-                    <div className='book' key={book.BookID}>
-                    {book.cover && <img src={book.Cover} alt="" />}
-                    <h2>{book.Title}</h2>
-                    <p>{book.Author}</p>
-                    <span>{book.BookID}</span>
-                    </div>
-          ))}
-            
-        </div>
+        <CCard>
+                <CCardHeader>Books List</CCardHeader>
+                <CCardBody>
+                    <CTable>
+                        <CTableHead>
+                            <CTableRow>
+                                <CTableHeaderCell>Title</CTableHeaderCell>
+                                <CTableHeaderCell>Author</CTableHeaderCell>
+                                <CTableHeaderCell>Type</CTableHeaderCell>
+                                <CTableHeaderCell>Genre</CTableHeaderCell>
+                                <CTableHeaderCell>Publication</CTableHeaderCell>
+                                <CTableHeaderCell>No of Pages</CTableHeaderCell>
+                                <CTableHeaderCell>Price</CTableHeaderCell>
+                                <CTableHeaderCell>Cover</CTableHeaderCell>
+                            </CTableRow>
+                        </CTableHead>
+                        <CTableBody>
+                            {books.map((book) => (
+                                <CTableRow key={book.BookID}>
+                                    <CTableDataCell>{book.Title}</CTableDataCell>
+                                    <CTableDataCell>{book.Author}</CTableDataCell>
+                                    <CTableDataCell>{book.BookTypeID}</CTableDataCell>
+                                    <CTableDataCell>{book.GenreID}</CTableDataCell>
+                                    <CTableDataCell>{book.Publication}</CTableDataCell>
+                                    <CTableDataCell>{book.NoOfPages}</CTableDataCell>
+                                    <CTableDataCell>{book.Price}</CTableDataCell>
+                                    <CTableDataCell>
+                                        {book.Cover ? <img src={book.Cover} alt={book.Title} style={{width: '50px', height: '50px'}} /> : 'N/A'}
+                                    </CTableDataCell>
+                                </CTableRow>
+                            ))}
+                        </CTableBody>
+                    </CTable>
+                </CCardBody>
+            </CCard>
 
-        <button><Link to="/Add">Add new book</Link></button>
+            <CButton color="primary">
+                <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
+            </CButton>
+        
     </div>
-   
+
   )
 }
 
