@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Add from './pages/Add';
+import AddBook from './pages/AddBook';
 import Books from './pages/Books';
-import Update from './pages/Update';
+import UpdateBook from './pages/UpdateBook';
 import { CContainer, CHeader, CFooter, CSidebar, CSidebarNav, CSidebarBrand, CSidebarToggler, CNavItem, CNavLink } from '@coreui/react';
 
 
@@ -18,8 +18,8 @@ function App() {
         <Routes>
         
             <Route path="/" element={<Books/>}/>
-            <Route path="/add" element={<Add/>}/>
-            <Route path="/update" element={<Update/>}/>
+            <Route path="/add" element={<AddBook/>}/>
+            <Route path="/update/:id" element={<UpdateBook/>}/>
 
 
         

@@ -1,48 +1,52 @@
-import React, { useEffect, useState } from 'react'; // Importing necessary hooks from React
-import axios from 'axios'; // Importing axios for HTTP requests
-import { Link } from 'react-router-dom'; // Importing Link for navigation
+import React, { useEffect, useState } from 'react'; 
+import axios from 'axios'; 
+import { Link } from 'react-router-dom'; 
 import {
     CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableRow,
     CTableHeaderCell, CTableBody, CTableDataCell, CButton, CModal,
     CModalBody, CModalHeader, CModalTitle, CModalFooter
-} from '@coreui/react'; // Importing CoreUI components for UI
-import '@coreui/coreui/dist/css/coreui.min.css'; // Importing CoreUI CSS
+} from '@coreui/react'; 
+import '@coreui/coreui/dist/css/coreui.min.css'; 
 
 const Books = () => {
-    // State to store the list of books
     const [books, setBooks] = useState([]);
-    // State to control the visibility of the modal
     const [modalOpen, setModalOpen] = useState(false);
-    // State to store the currently selected book for the modal
     const [selectedBook, setSelectedBook] = useState(null);
 
-    // Fetch all books from the backend when the component mounts
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
                 const res = await axios.get("http://localhost:8800/books");
-                console.log(res.data); // Debug: log the fetched data
-                setBooks(res.data); // Update the books state with fetched data
+                console.log(res.data); 
+                setBooks(res.data); 
             } catch (err) {
-                console.log(err); // Log any error that occurs during the fetch
+                console.log(err); 
             }
         };
 
-        fetchAllBooks(); // Call the fetch function
-    }, []); // Empty dependency array means this effect runs once on mount
+        fetchAllBooks(); 
+    }, []); 
 
-    // Handle book click to show modal with book details
     const handleBookClick = (book) => {
-        console.log('Book clicked:', book); // Debug: log the clicked book
-        setSelectedBook(book); // Set the selected book state
-        setModalOpen(true); // Open the modal
+        console.log('Book clicked:', book); 
+        setSelectedBook(book); 
+        setModalOpen(true); 
     };
 
-    // Handle closing of the modal
     const handleCloseModal = () => {
-        console.log('Closing modal'); // Debug: log when closing modal
-        setModalOpen(false); // Close the modal
-        setSelectedBook(null); // Reset the selected book state
+        console.log('Closing modal'); 
+        setModalOpen(false); 
+        setSelectedBook(null); 
+    };
+
+    const handleDelete = async (id, e) => {
+        e.stopPropagation(); // Prevent the click event from bubbling up to the row
+        try {
+            await axios.delete(`http://localhost:8800/books/${id}`);
+            setBooks(books.filter(book => book.id !== id)); // Update the state without reloading the page
+        } catch (err) {
+            console.log(err); 
+        }
     };
 
     return (
@@ -50,15 +54,16 @@ const Books = () => {
             <h1>Books Management Tool</h1>
 
             <CCard>
-                <CCardHeader style={{ display:"flex",justifyContent:"space-between"}}> Book List <CButton color="primary">
-                {/* Link to the Add New Book page */}
-                <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
-            </CButton> </CCardHeader>
+                <CCardHeader style={{ display:"flex",justifyContent:"space-between"}}>
+                    Book List 
+                    <CButton color="primary">
+                        <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
+                    </CButton> 
+                </CCardHeader>
                 <CCardBody>
                     <CTable>
                         <CTableHead>
                             <CTableRow>
-                                {/* Table headers */}
                                 <CTableHeaderCell>Title</CTableHeaderCell>
                                 <CTableHeaderCell>Author</CTableHeaderCell>
                                 <CTableHeaderCell>Type</CTableHeaderCell>
@@ -66,14 +71,12 @@ const Books = () => {
                                 <CTableHeaderCell>Publication</CTableHeaderCell>
                                 <CTableHeaderCell>No of Pages</CTableHeaderCell>
                                 <CTableHeaderCell>Price</CTableHeaderCell>
-                                <CTableHeaderCell></CTableHeaderCell>
+                                <CTableHeaderCell>Actions</CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
-                            {/* Map over books array to render each book as a table row */}
                             {books.map((book) => (
                                 <CTableRow key={book.id} onClick={() => handleBookClick(book)}>
-                                    {/* Table data cells */}
                                     <CTableDataCell>{book.title}</CTableDataCell>
                                     <CTableDataCell>{book.author}</CTableDataCell>
                                     <CTableDataCell>{book.type_id}</CTableDataCell>
@@ -81,15 +84,14 @@ const Books = () => {
                                     <CTableDataCell>{book.publication}</CTableDataCell>
                                     <CTableDataCell>{book.pages}</CTableDataCell>
                                     <CTableDataCell>{book.price}</CTableDataCell>
-                                    <CTableDataCell style={{ display:"flex" , gap:"20px"}}>
-                                    <CButton color="primary" className='update'>
-                
-                                     <Link to="/Update" style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
-                                    </CButton>
-                                    <CButton color="primary" className='delete'>
-            
-                                        Delete
-                                 </CButton></CTableDataCell>
+                                    <CTableDataCell style={{ display:"flex", gap:"20px" }}>
+                                        <CButton color="primary">
+                                            <Link to={`/Update/${book.id}`} style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
+                                        </CButton>
+                                        <CButton color="danger" onClick={(e) => handleDelete(book.id, e)}>
+                                            Delete
+                                        </CButton>
+                                    </CTableDataCell>
                                 </CTableRow>
                             ))}
                         </CTableBody>
@@ -97,9 +99,6 @@ const Books = () => {
                 </CCardBody>
             </CCard>
 
-            
-
-            {/* Modal to show book details */}
             <CModal visible={modalOpen} onClose={handleCloseModal}>
                 <CModalHeader>
                     <CModalTitle>Book Details</CModalTitle>
@@ -107,7 +106,6 @@ const Books = () => {
                 <CModalBody>
                     {selectedBook && (
                         <div>
-                            {/* Display book details */}
                             <p><strong>Title:</strong> {selectedBook.title}</p>
                             <p><strong>Author:</strong> {selectedBook.author}</p>
                             <p><strong>Type:</strong> {selectedBook.type_id}</p>
@@ -115,8 +113,8 @@ const Books = () => {
                             <p><strong>Publication:</strong> {selectedBook.publication}</p>
                             <p><strong>No of Pages:</strong> {selectedBook.pages}</p>
                             <p><strong>Price:</strong> {selectedBook.price}</p>
-                            {selectedBook.cover ? (
-                                <img src={selectedBook.cover} alt={selectedBook.title} style={{ width: '100px', height: '100px' }} />
+                            {selectedBook.cover_photo ? (
+                                <img src={`http://localhost:8800/uploads/${selectedBook.cover_photo}`} alt={selectedBook.title} style={{ width: '100px', height: '100px' }} />
                             ) : (
                                 <p>No Cover Photo</p>
                             )}
