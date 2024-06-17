@@ -50,7 +50,10 @@ const Books = () => {
             <h1>Books Management Tool</h1>
 
             <CCard>
-                <CCardHeader>Books List</CCardHeader>
+                <CCardHeader style={{ display:"flex",justifyContent:"space-between"}}> Book List <CButton color="primary">
+                {/* Link to the Add New Book page */}
+                <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
+            </CButton> </CCardHeader>
                 <CCardBody>
                     <CTable>
                         <CTableHead>
@@ -63,7 +66,7 @@ const Books = () => {
                                 <CTableHeaderCell>Publication</CTableHeaderCell>
                                 <CTableHeaderCell>No of Pages</CTableHeaderCell>
                                 <CTableHeaderCell>Price</CTableHeaderCell>
-                                <CTableHeaderCell>Cover</CTableHeaderCell>
+                                <CTableHeaderCell></CTableHeaderCell>
                             </CTableRow>
                         </CTableHead>
                         <CTableBody>
@@ -78,10 +81,15 @@ const Books = () => {
                                     <CTableDataCell>{book.publication}</CTableDataCell>
                                     <CTableDataCell>{book.pages}</CTableDataCell>
                                     <CTableDataCell>{book.price}</CTableDataCell>
-                                    <CTableDataCell>
-                                        {/* Render cover image if available, otherwise show 'N/A' */}
-                                        {book.cover ? <img src={book.cover} alt={book.title} style={{ width: '50px', height: '50px' }} /> : 'N/A'}
-                                    </CTableDataCell>
+                                    <CTableDataCell style={{ display:"flex" , gap:"20px"}}>
+                                    <CButton color="primary" className='update'>
+                
+                                     <Link to="/Update" style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
+                                    </CButton>
+                                    <CButton color="primary" className='delete'>
+            
+                                        Delete
+                                 </CButton></CTableDataCell>
                                 </CTableRow>
                             ))}
                         </CTableBody>
@@ -89,10 +97,7 @@ const Books = () => {
                 </CCardBody>
             </CCard>
 
-            <CButton color="primary">
-                {/* Link to the Add New Book page */}
-                <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
-            </CButton>
+            
 
             {/* Modal to show book details */}
             <CModal visible={modalOpen} onClose={handleCloseModal}>
