@@ -12,11 +12,9 @@ const PORT = 8800;
 app.use(express.json());
 app.use(cors());
 
-// Get the directory name for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve static files from the uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const db = mysql.createConnection({
@@ -66,10 +64,25 @@ app.post('/addbooks', upload.single('cover'), (req, res) => {
 });
 
 app.get("/books", (req, res) => {
-    const q = "SELECT * FROM books";
-    db.query(q, (err, data) => {
+    const query = `
+        SELECT b.*, t.name AS type_name, g.name AS genre_name 
+        FROM books b 
+        LEFT JOIN typesofbook t ON b.type_id = t.id 
+        LEFT JOIN genreofbook g ON b.genre_id = g.id
+        WHERE b.active = TRUE
+    `;
+    db.query(query, (err, data) => {
         if (err) return res.json(err);
         return res.json(data);
+    });
+});
+
+app.get("/books/:id", (req, res) => {
+    const bookId = req.params.id;
+    const q = "SELECT * FROM books WHERE id = ?";
+    db.query(q, [bookId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data[0]);
     });
 });
 
@@ -82,17 +95,34 @@ app.delete("/books/:id", (req, res) => {
     });
 });
 
-app.put("/books/:id", (req, res) => {
+app.put("/books/:id", upload.single('cover'), (req, res) => {
     const bookId = req.params.id;
-    const { title, author, type_id, genre_id, publication, pages, price, cover_photo } = req.body;
+    const { title, author, type_id, genre_id, publication, pages, price } = req.body;
+    let cover = req.body.cover_photo;
+
+    if (req.file) {
+        cover = req.file.filename;
+    }
+
     const q = "UPDATE books SET title = ?, author = ?, type_id = ?, genre_id = ?, publication = ?, pages = ?, price = ?, cover_photo = ? WHERE id = ?";
-    const values = [title, author, type_id, genre_id, publication, pages, price, cover_photo, bookId];
+    const values = [title, author, type_id, genre_id, publication, pages, price, cover, bookId];
 
     db.query(q, values, (err, data) => {
         if (err) return res.json(err);
         return res.json("Book has been updated successfully");
     });
 });
+
+app.put("/books/deactivate/:id", (req, res) => {
+    const bookId = req.params.id;
+    const query = "UPDATE books SET active = FALSE WHERE id = ?";
+    
+    db.query(query, [bookId], (err, data) => {
+        if (err) return res.json(err);
+        return res.json("Book has been deactivated successfully");
+    });
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

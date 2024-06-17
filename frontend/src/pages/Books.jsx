@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'; 
-import axios from 'axios'; 
-import { Link } from 'react-router-dom'; 
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import {
     CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableRow,
     CTableHeaderCell, CTableBody, CTableDataCell, CButton, CModal,
     CModalBody, CModalHeader, CModalTitle, CModalFooter
-} from '@coreui/react'; 
-import '@coreui/coreui/dist/css/coreui.min.css'; 
+} from '@coreui/react';
+import '@coreui/coreui/dist/css/coreui.min.css';
 
 const Books = () => {
     const [books, setBooks] = useState([]);
@@ -17,35 +17,32 @@ const Books = () => {
         const fetchAllBooks = async () => {
             try {
                 const res = await axios.get("http://localhost:8800/books");
-                console.log(res.data); 
-                setBooks(res.data); 
+                setBooks(res.data);
             } catch (err) {
-                console.log(err); 
+                console.log(err);
             }
         };
 
-        fetchAllBooks(); 
-    }, []); 
+        fetchAllBooks();
+    }, []);
 
     const handleBookClick = (book) => {
-        console.log('Book clicked:', book); 
-        setSelectedBook(book); 
-        setModalOpen(true); 
+        setSelectedBook(book);
+        setModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        console.log('Closing modal'); 
-        setModalOpen(false); 
-        setSelectedBook(null); 
+        setModalOpen(false);
+        setSelectedBook(null);
     };
 
-    const handleDelete = async (id, e) => {
+    const handleDeactivate = async (id, e) => {
         e.stopPropagation(); // Prevent the click event from bubbling up to the row
         try {
-            await axios.delete(`http://localhost:8800/books/${id}`);
+            await axios.put(`http://localhost:8800/books/deactivate/${id}`);
             setBooks(books.filter(book => book.id !== id)); // Update the state without reloading the page
         } catch (err) {
-            console.log(err); 
+            console.log(err);
         }
     };
 
@@ -54,11 +51,11 @@ const Books = () => {
             <h1>Books Management Tool</h1>
 
             <CCard>
-                <CCardHeader style={{ display:"flex",justifyContent:"space-between"}}>
-                    Book List 
+                <CCardHeader style={{ display: "flex", justifyContent: "space-between" }}>
+                    Book List
                     <CButton color="primary">
                         <Link to="/add" style={{ color: 'white', textDecoration: 'none' }}>Add new book</Link>
-                    </CButton> 
+                    </CButton>
                 </CCardHeader>
                 <CCardBody>
                     <CTable>
@@ -79,17 +76,17 @@ const Books = () => {
                                 <CTableRow key={book.id} onClick={() => handleBookClick(book)}>
                                     <CTableDataCell>{book.title}</CTableDataCell>
                                     <CTableDataCell>{book.author}</CTableDataCell>
-                                    <CTableDataCell>{book.type_id}</CTableDataCell>
-                                    <CTableDataCell>{book.genre_id}</CTableDataCell>
+                                    <CTableDataCell>{book.type_name}</CTableDataCell>
+                                    <CTableDataCell>{book.genre_name}</CTableDataCell>
                                     <CTableDataCell>{book.publication}</CTableDataCell>
                                     <CTableDataCell>{book.pages}</CTableDataCell>
                                     <CTableDataCell>{book.price}</CTableDataCell>
-                                    <CTableDataCell style={{ display:"flex", gap:"20px" }}>
+                                    <CTableDataCell style={{ display: "flex", gap: "20px" }}>
                                         <CButton color="primary">
                                             <Link to={`/Update/${book.id}`} style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
                                         </CButton>
-                                        <CButton color="danger" onClick={(e) => handleDelete(book.id, e)}>
-                                            Delete
+                                        <CButton color="danger" onClick={(e) => handleDeactivate(book.id, e)}>
+                                            Deactivate
                                         </CButton>
                                     </CTableDataCell>
                                 </CTableRow>
@@ -103,21 +100,24 @@ const Books = () => {
                 <CModalHeader>
                     <CModalTitle>Book Details</CModalTitle>
                 </CModalHeader>
-                <CModalBody>
+                <CModalBody style={{ display: "flex", justifyContent: "center" }}>
                     {selectedBook && (
                         <div>
-                            <p><strong>Title:</strong> {selectedBook.title}</p>
-                            <p><strong>Author:</strong> {selectedBook.author}</p>
-                            <p><strong>Type:</strong> {selectedBook.type_id}</p>
-                            <p><strong>Genre:</strong> {selectedBook.genre_id}</p>
-                            <p><strong>Publication:</strong> {selectedBook.publication}</p>
-                            <p><strong>No of Pages:</strong> {selectedBook.pages}</p>
-                            <p><strong>Price:</strong> {selectedBook.price}</p>
+                            <p><strong>Book cover photo</strong></p>
                             {selectedBook.cover_photo ? (
                                 <img src={`http://localhost:8800/uploads/${selectedBook.cover_photo}`} alt={selectedBook.title} style={{ width: '100px', height: '100px' }} />
                             ) : (
                                 <p>No Cover Photo</p>
                             )}
+
+                            <p><strong>Title:</strong> {selectedBook.title}</p>
+                            <p><strong>Author:</strong> {selectedBook.author}</p>
+                            <p><strong>Type:</strong> {selectedBook.type_name}</p>
+                            <p><strong>Genre:</strong> {selectedBook.genre_name}</p>
+                            <p><strong>Publication:</strong> {selectedBook.publication}</p>
+                            <p><strong>No of Pages:</strong> {selectedBook.pages}</p>
+                            <p><strong>Price:</strong> {selectedBook.price}</p>
+
                         </div>
                     )}
                 </CModalBody>

@@ -1,8 +1,6 @@
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   CContainer,
   CForm,
@@ -26,8 +24,32 @@ const UpdateBook = () => {
   const [pages, setPages] = useState('');
   const [price, setPrice] = useState('');
   const [cover, setCover] = useState(null);
+  const [existingCover, setExistingCover] = useState('');
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const bookId = location.pathname.split("/")[2];
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8800/books/${bookId}`);
+        const book = res.data;
+        setTitle(book.title);
+        setAuthor(book.author);
+        setTypeId(book.type_id);
+        setGenreId(book.genre_id);
+        setPublication(book.publication);
+        setPages(book.pages);
+        setPrice(book.price);
+        setExistingCover(book.cover_photo);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchBookDetails();
+  }, [bookId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,10 +61,14 @@ const UpdateBook = () => {
     formData.append('publication', publication);
     formData.append('pages', pages);
     formData.append('price', price);
-    formData.append('cover', cover);
+    if (cover) {
+      formData.append('cover', cover);
+    } else {
+      formData.append('cover_photo', existingCover);
+    }
 
     try {
-      await axios.post('http://localhost:8800/addbooks', formData);
+      await axios.put(`http://localhost:8800/books/${bookId}`, formData);
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -59,7 +85,7 @@ const UpdateBook = () => {
             </CCardHeader>
             <CCardBody style={{ padding: '20px' }}>
               <CForm onSubmit={handleSubmit}>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="title">Title</CFormLabel>
                   <CFormInput
                     type="text"
@@ -69,7 +95,7 @@ const UpdateBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="author">Author</CFormLabel>
                   <CFormInput
                     type="text"
@@ -79,7 +105,7 @@ const UpdateBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="type_id">Type</CFormLabel>
                   <CFormSelect
                     id="type_id"
@@ -94,7 +120,7 @@ const UpdateBook = () => {
                     <option value="4">Poems</option>
                   </CFormSelect>
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="genre_id">Genre</CFormLabel>
                   <CFormSelect
                     id="genre_id"
@@ -109,7 +135,7 @@ const UpdateBook = () => {
                     <option value="4">Science Fiction</option>
                   </CFormSelect>
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="publication">Publication</CFormLabel>
                   <CFormInput
                     type="text"
@@ -119,7 +145,7 @@ const UpdateBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="pages">No of Pages</CFormLabel>
                   <CFormInput
                     type="number"
@@ -129,7 +155,7 @@ const UpdateBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="price">Price</CFormLabel>
                   <CFormInput
                     type="number"
@@ -139,7 +165,7 @@ const UpdateBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="cover">Cover Photo</CFormLabel>
                   <CFormInput
                     type="file"
@@ -147,7 +173,7 @@ const UpdateBook = () => {
                     onChange={(e) => setCover(e.target.files[0])}
                   />
                 </div>
-                <CButton type="submit" color="primary">Add Book</CButton>
+                <CButton type="submit" color="primary">Update Book</CButton>
               </CForm>
             </CCardBody>
           </CCard>
