@@ -5,25 +5,33 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from 'url';
 import fs from "fs";
+import dotenv from "dotenv";
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
-const PORT = 8800;
+const PORT = process.env.PORT || 8800;
 
+// Middleware to parse JSON and handle CORS
 app.use(express.json());
 app.use(cors());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Serve static files from the 'uploads' directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Create MySQL connection
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Pass@123",
-    database: "library"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
+// Connect to MySQL database
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err);
@@ -32,10 +40,12 @@ db.connect((err) => {
     console.log('Connected to MySQL');
 });
 
+// Ensure 'uploads' directory exists
 if (!fs.existsSync('./uploads')) {
     fs.mkdirSync('./uploads');
 }
 
+// Configure multer for file storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
@@ -47,6 +57,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// Endpoint to add a new book
 app.post('/addbooks', upload.single('cover'), (req, res) => {
     const { title, author, type_id, genre_id, publication, pages, price } = req.body;
     const cover = req.file ? req.file.filename : null;
@@ -63,6 +74,7 @@ app.post('/addbooks', upload.single('cover'), (req, res) => {
     });
 });
 
+// Endpoint to get all active books
 app.get("/books", (req, res) => {
     const query = `
         SELECT b.*, t.name AS type_name, g.name AS genre_name 
@@ -77,6 +89,7 @@ app.get("/books", (req, res) => {
     });
 });
 
+// Endpoint to get a specific book by ID
 app.get("/books/:id", (req, res) => {
     const bookId = req.params.id;
     const q = "SELECT * FROM books WHERE id = ?";
@@ -86,15 +99,7 @@ app.get("/books/:id", (req, res) => {
     });
 });
 
-app.delete("/books/:id", (req, res) => {
-    const bookId = req.params.id;
-    const q = "DELETE FROM books WHERE id = ?";
-    db.query(q, [bookId], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Book has been deleted successfully");
-    });
-});
-
+// Endpoint to update a specific book by ID
 app.put("/books/:id", upload.single('cover'), (req, res) => {
     const bookId = req.params.id;
     const { title, author, type_id, genre_id, publication, pages, price } = req.body;
@@ -113,6 +118,7 @@ app.put("/books/:id", upload.single('cover'), (req, res) => {
     });
 });
 
+// Endpoint to deactivate a specific book by ID
 app.put("/books/deactivate/:id", (req, res) => {
     const bookId = req.params.id;
     const query = "UPDATE books SET active = FALSE WHERE id = ?";
@@ -123,7 +129,7 @@ app.put("/books/deactivate/:id", (req, res) => {
     });
 });
 
-
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
