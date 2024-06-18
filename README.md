@@ -29,6 +29,13 @@ View Book Details: Users can click on a book to view detailed information, inclu
    ```bash
    git clone https://github.com/your-username/library-management-system.git
 - create database schema as per xls sheet.
+- table genreofbook and typesofbook ,Ensure these tables are populated with data before adding books.
+- Data Integrity: By defining genres and book types beforehand, you ensure that each book entry references valid and existing genres and types. This prevents invalid data from being inserted into the books table.
+Consistency: Having predefined genres and types ensures consistent data entry. For instance, it avoids discrepancies like “Science Fiction” vs. “Sci-Fi,” which could lead to data inconsistencies.
+- Database Normalization:In relational database design, normalization is the process of organizing data to reduce redundancy and improve data integrity. By separating genres and types into their own tables, you 
+ adhere to normalization principles, ensuring each piece of data is stored only once.
+- Foreign Key Constraints: When you add books, each book entry will reference existing genres and types via foreign keys. These constraints ensure that every reference to a genre or type in the books table corresponds to a valid entry in the genres or typesofbook table.
+
 - add .env ,passwords etc.
   
   ```bash 
