@@ -23,5 +23,25 @@ View Book Details: Users can click on a book to view detailed information, inclu
 - Backend: Node.js, Express, Multer (for file uploads)
 - Database: MySQL
 
+# Installation
+-  **Clone the repository**
+
+   ```bash
+   git clone https://github.com/your-username/library-management-system.git
+- create database schema as per xls sheet.
+- add .env ,passwords etc.
+  
+  ```bash 
+   cd BooksManagementTools
+   cd backend
+   npm install
+   npm start
+   cd ..
+   cd frontend
+   npm install
+   npm run dev
+
+
+   
 # Contact
 For any inquiries, please contact [pfirame18@example.com].
