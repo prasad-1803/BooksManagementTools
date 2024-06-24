@@ -84,6 +84,7 @@ const UpdateBook = () => {
               <h1>Update a book details</h1>
             </CCardHeader>
             <CCardBody style={{ padding: '20px' }}>
+            
               <CForm onSubmit={handleSubmit}>
                 <div>
                   <CFormLabel htmlFor="title">Title</CFormLabel>

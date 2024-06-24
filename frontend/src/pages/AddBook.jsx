@@ -57,7 +57,7 @@ const AddBook = () => {
             </CCardHeader>
             <CCardBody style={{ padding: '20px' }}>
               <CForm onSubmit={handleSubmit}>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="title">Title</CFormLabel>
                   <CFormInput
                     type="text"
@@ -67,7 +67,7 @@ const AddBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="author">Author</CFormLabel>
                   <CFormInput
                     type="text"
@@ -77,7 +77,7 @@ const AddBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="type_id">Type</CFormLabel>
                   <CFormSelect
                     id="type_id"
@@ -92,7 +92,7 @@ const AddBook = () => {
                     <option value="4">Poems</option>
                   </CFormSelect>
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="genre_id">Genre</CFormLabel>
                   <CFormSelect
                     id="genre_id"
@@ -107,7 +107,7 @@ const AddBook = () => {
                     <option value="4">Science Fiction</option>
                   </CFormSelect>
                 </div>
-                <div className="mb-3">
+                <div>
                   <CFormLabel htmlFor="publication">Publication</CFormLabel>
                   <CFormInput
                     type="text"
@@ -117,7 +117,7 @@ const AddBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="pages">No of Pages</CFormLabel>
                   <CFormInput
                     type="number"
@@ -127,7 +127,7 @@ const AddBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="price">Price</CFormLabel>
                   <CFormInput
                     type="number"
@@ -137,7 +137,7 @@ const AddBook = () => {
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div >
                   <CFormLabel htmlFor="cover">Cover Photo</CFormLabel>
                   <CFormInput
                     type="file"

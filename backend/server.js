@@ -74,6 +74,31 @@ app.post('/addbooks', upload.single('cover'), (req, res) => {
     });
 });
 
+// Function to update book status
+const updateBookStatus = (bookId, isActive) => {
+    return new Promise((resolve, reject) => {
+        const query = "UPDATE books SET active = ? WHERE id = ?";
+        db.query(query, [isActive, bookId], (err, result) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(result);
+        });
+    });
+};
+
+// Express.js route example
+app.put('/books/:id/status', (req, res) => {
+    const bookId = req.params.id;
+    const isActive = req.body.active;
+
+    
+    // Assuming you're using a function updateBookStatus(bookId, isActive)
+    updateBookStatus(bookId, isActive)
+        .then(() => res.status(200).send({ message: 'Status updated successfully' }))
+        .catch(err => res.status(500).send({ message: 'Error updating status', error: err }));
+});
+
 // Endpoint to get all active books
 app.get("/books", (req, res) => {
     const query = `
@@ -81,7 +106,7 @@ app.get("/books", (req, res) => {
         FROM books b 
         LEFT JOIN typesofbook t ON b.type_id = t.id 
         LEFT JOIN genreofbook g ON b.genre_id = g.id
-        WHERE b.active = TRUE
+        
     `;
     db.query(query, (err, data) => {
         if (err) return res.json(err);
@@ -118,14 +143,14 @@ app.put("/books/:id", upload.single('cover'), (req, res) => {
     });
 });
 
-// Endpoint to deactivate a specific book by ID
-app.put("/books/deactivate/:id", (req, res) => {
+
+app.delete("/books/:id", (req, res) => {
     const bookId = req.params.id;
-    const query = "UPDATE books SET active = FALSE WHERE id = ?";
-    
+    const query = "DELETE FROM books WHERE id = ?";
+
     db.query(query, [bookId], (err, data) => {
-        if (err) return res.json(err);
-        return res.json("Book has been deactivated successfully");
+        if (err) return res.status(500).json(err);
+        return res.status(200).json("Book has been deleted successfully");
     });
 });
 
