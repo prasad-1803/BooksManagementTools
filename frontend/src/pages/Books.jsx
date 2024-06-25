@@ -1,12 +1,13 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {
-    CCard, CCardBody, CCardHeader, CTable, CTableHead, CTableRow,
-    CTableHeaderCell, CTableBody, CTableDataCell, CButton, CModal,
-    CModalBody, CModalHeader, CModalTitle, CModalFooter
+    CCard, CCardBody, CCardHeader, CModal,
+    CModalBody, CModalHeader, CModalTitle, CModalFooter, CButton
 } from '@coreui/react';
 import '@coreui/coreui/dist/css/coreui.min.css';
+import Table from '../../components/Table'; // Import the new Table component
 
 const Books = () => {
     const [books, setBooks] = useState([]);
@@ -70,53 +71,14 @@ const Books = () => {
                     </CButton>
                 </CCardHeader>
                 <CCardBody>
-                    <CTable>
-                        <CTableHead>
-                            <CTableRow>
-                                <CTableHeaderCell>Title</CTableHeaderCell>
-                                <CTableHeaderCell>Author</CTableHeaderCell>
-                                <CTableHeaderCell>Type</CTableHeaderCell>
-                                <CTableHeaderCell>Genre</CTableHeaderCell>
-                                <CTableHeaderCell>Publication</CTableHeaderCell>
-                                <CTableHeaderCell>No of Pages</CTableHeaderCell>
-                                <CTableHeaderCell>Price</CTableHeaderCell>
-                                <CTableHeaderCell>Active</CTableHeaderCell> {/* New column */}
-                                <CTableHeaderCell>Actions</CTableHeaderCell>
-                            </CTableRow>
-                        </CTableHead>
-                        <CTableBody>
-                            {books.map((book) => (
-                                <CTableRow key={book.id} onClick={(e) => handleBookClick(book, e)}>
-                                    <CTableDataCell>{book.title}</CTableDataCell>
-                                    <CTableDataCell>{book.author}</CTableDataCell>
-                                    <CTableDataCell>{book.type_name}</CTableDataCell>
-                                    <CTableDataCell>{book.genre_name}</CTableDataCell>
-                                    <CTableDataCell>{book.publication}</CTableDataCell>
-                                    <CTableDataCell>{book.pages}</CTableDataCell>
-                                    <CTableDataCell>{book.price}</CTableDataCell>
-                                    <CTableDataCell>
-                                        <input 
-                                            type="checkbox" 
-                                            checked={book.active} 
-                                            style={{ width: '20px', height: '20px' }}
-                                            onChange={(e) => {
-                                                e.stopPropagation();
-                                                handleStatusChange(book.id, e.target.checked, e);
-                                            }}
-                                        />
-                                    </CTableDataCell>
-                                    <CTableDataCell style={{ display: "flex", gap: "20px" }}>
-                                        <CButton color="primary">
-                                            <Link to={`/Update/${book.id}`} style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
-                                        </CButton>
-                                        <CButton color="danger" onClick={(e) => handleDelete(book.id, e)}>
-                                            Delete
-                                        </CButton>
-                                    </CTableDataCell>
-                                </CTableRow>
-                            ))}
-                        </CTableBody>
-                    </CTable>
+          {/* added table component */}
+                    <Table
+                        data={books}
+                        handleBookClick={handleBookClick}
+                        handleStatusChange={handleStatusChange}
+                        handleDelete={handleDelete}
+                    />
+
                 </CCardBody>
             </CCard>
 
@@ -141,8 +103,7 @@ const Books = () => {
                             <p><strong>Publication:</strong> {selectedBook.publication}</p>
                             <p><strong>No of Pages:</strong> {selectedBook.pages}</p>
                             <p><strong>Price:</strong> {selectedBook.price}</p>
-                            <p><strong>active:</strong> {selectedBook.active ===1 ?"1":"0"}</p>
-
+                            <p><strong>Active:</strong> {selectedBook.active === 1 ? "Yes" : "No"}</p>
                         </div>
                     )}
                 </CModalBody>

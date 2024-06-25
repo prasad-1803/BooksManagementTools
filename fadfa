@@ -1,0 +1,103 @@
+[33mcommit 9d32dbae05725adc0fb8d1a0d95498991acc0797[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: af8315c 4709f49
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 24 17:35:36 2024 +0530
+
+    Merge branch 'main' of https://github.com/prasad-1803/BooksManagementTools
+
+[33mcommit af8315c0d2a20ea5b63c99a4111e3088dad3baf5[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 24 17:35:12 2024 +0530
+
+    added active column at frontend created route at backend to handle update that status in db
+
+[33mcommit 4709f49c6c5ab66063b415bfdaa00a9c7679d093[m
+Author: prasad <113035638+prasad-1803@users.noreply.github.com>
+Date:   Tue Jun 18 09:41:55 2024 +0530
+
+    very small readme update
+
+[33mcommit ba076899ccfe1306815fadd4f3a43b39f058c239[m
+Author: prasad <113035638+prasad-1803@users.noreply.github.com>
+Date:   Tue Jun 18 09:22:04 2024 +0530
+
+    Update README.md
+
+[33mcommit b8c7534c49c2117e9f268e95738b941d3dc410ff[m
+Merge: 8991700 9fd7eae
+Author: prasad <pfirame18@gmail.com>
+Date:   Tue Jun 18 09:14:49 2024 +0530
+
+    Merge branch 'main' of https://github.com/prasad-1803/BooksManagementTools
+
+[33mcommit 8991700453bd973ced9feec524f2b3aafa52cdbb[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Tue Jun 18 09:13:54 2024 +0530
+
+    adde dotenv and meaningfull comments
+
+[33mcommit 9fd7eaec8898fe69fa59bbfc8f1101375bff1d11[m
+Author: prasad <113035638+prasad-1803@users.noreply.github.com>
+Date:   Tue Jun 18 01:07:01 2024 +0530
+
+    Update README.md
+
+[33mcommit 3f17e61db8a9178bd5b63366dee2f595effaa271[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 17 23:50:29 2024 +0530
+
+    minor changes
+
+[33mcommit 3b6e5112a70f5c19a447e1417b34b3b7a00e022c[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 17 23:46:13 2024 +0530
+
+    added all the routes ,changed delete fun to deactivate, made simple ui changes and almost completed whole project
+
+[33mcommit d228c98bcc049493ae7d60206b53b42fb2233efc[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 17 12:42:05 2024 +0530
+
+    minor changes favicon added readme changes
+
+[33mcommit 287c207fd3f54cabbe38ad2aaf1019be4dd42941[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 17 12:11:42 2024 +0530
+
+    added multer .cover page feature and added update page ,added delete and update fetures
+
+[33mcommit cb30908f1457e474a17538d2b4cc6146da15e86b[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Mon Jun 17 08:57:54 2024 +0530
+
+    improved add and books page ,as well well as solved some minor issues
+
+[33mcommit 3d150bf61920e64630e4370310a10c406784f237[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Sun Jun 16 14:52:41 2024 +0530
+
+    added pop up card Model component to books table and added add page fun to some extent
+
+[33mcommit 035370dce08248234f936b0c3c347f26c86de6cb[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Sun Jun 16 10:25:31 2024 +0530
+
+    added coreui to home page created simple tabel prototype
+
+[33mcommit 03dba52e24978fafc7493e846d78df1e8dbbe2f5[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Fri Jun 14 17:09:02 2024 +0530
+
+    created basic prototype, simple api and connected db as well as conneted frontend with backend used axios ,cors
+
+[33mcommit b9b8e0ff89323956af7db808336e68bb97e764a2[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Fri Jun 14 09:11:24 2024 +0530
+
+    initial commit to setup frontend and backend
+
+[33mcommit 442a7a1b1b6be597af1cd18951b7784063f1a64e[m
+Author: prasad <pfirame18@gmail.com>
+Date:   Wed Jun 12 11:29:25 2024 +0530
+
+    inital commit
