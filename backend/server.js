@@ -154,6 +154,104 @@ app.delete("/books/:id", (req, res) => {
     });
 });
 
+
+// Endpoint to list all students
+app.get("/students", (req, res) => {
+    const query = "SELECT * FROM students";
+    db.query(query, (err, data) => {
+        if (err) return res.status(500).json({ error: 'Error fetching students', err });
+        return res.status(200).json(data);
+    });
+});
+
+// Endpoint to add a new student
+app.post("/addstudent", (req, res) => {
+    const { name, age, grade, email } = req.body;
+    const query = "INSERT INTO students (name, age, grade, email) VALUES (?, ?, ?, ?)";
+    const values = [name, age, grade, email];
+    
+    db.query(query, values, (err, result) => {
+        if (err) return res.status(500).json({ error: 'Error adding student', err });
+        return res.status(201).json({ message: 'Student added successfully', studentId: result.insertId });
+    });
+});
+
+// Endpoint to update a student by ID
+app.put("/students/:id", (req, res) => {
+    const studentId = req.params.id;
+    const { name, age, grade, email } = req.body;
+    const query = "UPDATE students SET name = ?, age = ?, grade = ?, email = ? WHERE id = ?";
+    const values = [name, age, grade, email, studentId];
+    
+    db.query(query, values, (err, result) => {
+        if (err) return res.status(500).json({ error: 'Error updating student', err });
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Student not found' });
+        }
+        return res.status(200).json({ message: 'Student updated successfully' });
+    });
+});
+
+// Endpoint to issue a book to a student
+app.post('/issue', (req, res) => {
+    const { bookId, studentId, issueDate } = req.body;
+  
+    if (!bookId || !studentId || !issueDate) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+  
+    const query = 'INSERT INTO issued_books (book_id, student_id, issue_date) VALUES (?, ?, ?)';
+    const values = [bookId, studentId, issueDate];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error issuing book:', err);
+        return res.status(500).json({ error: 'Error issuing book' });
+      }
+      res.status(201).json({ message: 'Book issued successfully' });
+    });
+  });
+  
+
+// Endpoint to return a book from a student
+app.post('/return', (req, res) => {
+    const { bookId, studentId, returnDate } = req.body;
+  
+    if (!bookId || !studentId || !returnDate) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+  
+    const query = 'UPDATE issued_books SET return_date = ? WHERE book_id = ? AND student_id = ?';
+    const values = [returnDate, bookId, studentId];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error('Error returning book:', err);
+        return res.status(500).json({ error: 'Error returning book' });
+      }
+      res.status(200).json({ message: 'Book returned successfully' });
+    });
+  });
+  
+// Endpoint to get a report of books issued to a specific student
+app.get('/issued-books', (req, res) => {
+    const query = `
+      SELECT ib.*, b.title as book_title, s.name as student_name 
+      FROM issued_books ib
+      JOIN books b ON ib.book_id = b.id
+      JOIN students s ON ib.student_id = s.id
+    `;
+  
+    db.query(query, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Error fetching issued books report' });
+      }
+      res.json(data);
+    });
+  });
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

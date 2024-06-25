@@ -23,7 +23,7 @@ const AddStudent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8800/students/add', formData);
+      await axios.post('http://localhost:8800/addstudent', formData);
       navigate('/students');
     } catch (err) {
       console.error(err);

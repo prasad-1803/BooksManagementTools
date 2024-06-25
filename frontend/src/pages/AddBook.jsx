@@ -41,7 +41,7 @@ const AddBook = () => {
 
     try {
       await axios.post('http://localhost:8800/addbooks', formData);
-      navigate('/');
+      navigate('/books');
     } catch (err) {
       console.error(err);
     }

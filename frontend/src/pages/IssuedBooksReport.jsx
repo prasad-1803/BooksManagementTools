@@ -12,6 +12,7 @@ const IssuedBooksReport = () => {
     try {
       const res = await axios.get('http://localhost:8800/issued-books');
       setIssuedBooks(res.data);
+      console.log(res.data);
     } catch (err) {
       console.error(err);
     }

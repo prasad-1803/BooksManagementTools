@@ -21,8 +21,8 @@ function App() {
           <Route path="/students" element={<Students />} />
           <Route path="/students/add" element={<AddStudent />} />
           <Route path="/students/update/:id" element={<UpdateStudents />} />
-          <Route path="/issue-return" element={<IssueAndReturnBook />} />
-          <Route path="/issued-books-report" element={<IssuedBooksReport />} />
+          <Route path="/issuereturn" element={<IssueAndReturnBook />} />
+          <Route path="/issuedbooksreport" element={<IssuedBooksReport />} />
         </Routes>
       </div>
     </Router>

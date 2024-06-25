@@ -26,13 +26,30 @@ const Home = () => {
               Manage Books
             </CButton>
             <CButton
-              color="success"
+              color="primary"
               size="lg"
               className="m-2"
               onClick={() => handleNavigation('/students')}
             >
               Manage Students
             </CButton>
+            <CButton
+              color="primary"
+              size="lg"
+              className="m-2"
+              onClick={() => handleNavigation('/issuereturn')}
+            >
+              IssueBooks
+            </CButton>
+            <CButton
+              color="success"
+              size="lg"
+              className="m-2"
+              onClick={() => handleNavigation('/issuedbooksreport')}
+            >
+              Report of Issued Books
+            </CButton>
+            
           </div>
         </CCol>
       </CRow>
