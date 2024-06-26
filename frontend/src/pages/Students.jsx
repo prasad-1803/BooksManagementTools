@@ -23,15 +23,15 @@ const Students = () => {
         }
     };
 
-    const handleDelete = async (studentId) => {
-        try {
-            await axios.delete(`http://localhost:8800/students/${studentId}`);
-            // Refresh the student list after deletion
-            fetchStudents();
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    // const handleDelete = async (studentId) => {
+    //     try {
+    //         await axios.delete(`http://localhost:8800/students/${studentId}`);
+    //         // Refresh the student list after deletion
+    //         fetchStudents();
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // };
 
     return (
         <div>
@@ -43,7 +43,7 @@ const Students = () => {
                         <Link to="/students/add" style={{ color: 'white', textDecoration: 'none' }}>Add new Student</Link>
                     </CButton>
                </CCardHeader>
-               <CCardBody> <Table data={students} handleDelete={handleDelete} /></CCardBody>
+               <CCardBody> <Table data={students}  /></CCardBody>
                </CCard>
             {/* Render the Table component to display student data */}
            

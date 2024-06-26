@@ -39,15 +39,15 @@ const Books = () => {
         setSelectedBook(null);
     };
 
-    const handleDelete = async (id, e) => {
-        e.stopPropagation(); // Prevent the click event from bubbling up to the row
-        try {
-            await axios.delete(`http://localhost:8800/books/${id}`);
-            setBooks(books.filter(book => book.id !== id)); // Update the state without reloading the page
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    // const handleDelete = async (id, e) => {
+    //     e.stopPropagation(); // Prevent the click event from bubbling up to the row
+    //     try {
+    //         await axios.delete(`http://localhost:8800/books/${id}`);
+    //         setBooks(books.filter(book => book.id !== id)); // Update the state without reloading the page
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     const handleStatusChange = async (id, isActive, e) => {
         e.stopPropagation(); // Prevent the click event from bubbling up to the row
@@ -76,7 +76,7 @@ const Books = () => {
                         data={books}
                         handleBookClick={handleBookClick}
                         handleStatusChange={handleStatusChange}
-                        handleDelete={handleDelete}
+                        // handleDelete={handleDelete}
                     />
 
                 </CCardBody>

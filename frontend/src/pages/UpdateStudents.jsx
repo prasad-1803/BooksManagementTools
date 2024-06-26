@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import {
+  CForm,
+  CFormLabel,
+  CFormInput,
+  CButton,
+  CCard,
+  CCardBody,
+  CCardHeader
+} from '@coreui/react';
 
 const UpdateStudents = () => {
   const [formData, setFormData] = useState({
@@ -45,16 +54,64 @@ const UpdateStudents = () => {
   };
 
   return (
-    <div>
-      <h1>Update Student</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-        <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} required />
-        <input type="text" name="grade" placeholder="Grade" value={formData.grade} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <button type="submit">Update Student</button>
-      </form>
-    </div>
+    <CCard>
+      <CCardHeader>
+        <h1>Update Student</h1>
+      </CCardHeader>
+      <CCardBody>
+        <CForm onSubmit={handleSubmit}>
+          <div>
+            <CFormLabel htmlFor="name">Name</CFormLabel>
+            <CFormInput
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <CFormLabel htmlFor="age">Age</CFormLabel>
+            <CFormInput
+              type="number"
+              id="age"
+              name="age"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <CFormLabel htmlFor="grade">Grade</CFormLabel>
+            <CFormInput
+              type="text"
+              id="grade"
+              name="grade"
+              placeholder="Grade"
+              value={formData.grade}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <CFormLabel htmlFor="email">Email</CFormLabel>
+            <CFormInput
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <CButton type="submit" color="primary">Update Student</CButton>
+        </CForm>
+      </CCardBody>
+    </CCard>
   );
 };
 

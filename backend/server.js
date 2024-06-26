@@ -143,14 +143,26 @@ app.put("/books/:id", upload.single('cover'), (req, res) => {
     });
 });
 
-
 app.delete("/books/:id", (req, res) => {
     const bookId = req.params.id;
+
+    if (!bookId) {
+        return res.status(400).json({ error: "Book ID is required" });
+    }
+
     const query = "DELETE FROM books WHERE id = ?";
 
-    db.query(query, [bookId], (err, data) => {
-        if (err) return res.status(500).json(err);
-        return res.status(200).json("Book has been deleted successfully");
+    db.query(query, [bookId], (err, result) => {
+        if (err) {
+            console.error("Error deleting book:", err);
+            return res.status(500).json({ error: "Error deleting book", details: err });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Book not found" });
+        }
+
+        return res.status(200).json({ message: "Book has been deleted successfully" });
     });
 });
 
@@ -163,6 +175,17 @@ app.get("/students", (req, res) => {
         return res.status(200).json(data);
     });
 });
+app.get("/students/:id", (req, res) => {
+    const studentId = req.params.id;
+    const query = "SELECT * FROM students WHERE id = ?";
+    
+    db.query(query, [studentId], (err, data) => {
+        if (err) return res.status(500).json({ error: 'Error fetching student', err });
+        if (data.length === 0) return res.status(404).json({ error: 'Student not found' });
+        return res.status(200).json(data[0]);
+    });
+});
+
 
 // Endpoint to add a new student
 app.post("/addstudent", (req, res) => {

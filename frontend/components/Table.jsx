@@ -29,8 +29,6 @@ const Table = ({ data, handleBookClick, handleStatusChange, handleDelete }) => {
               <CTableHeaderCell>Email</CTableHeaderCell>
               <CTableHeaderCell>Grade</CTableHeaderCell>
               <CTableHeaderCell>Age</CTableHeaderCell>
-             
-
             </>
           )}
           <CTableHeaderCell>Actions</CTableHeaderCell>
@@ -72,9 +70,9 @@ const Table = ({ data, handleBookClick, handleStatusChange, handleDelete }) => {
               <CButton color="primary">
                 <Link to={`/${isBookData ? 'update' : 'students/update'}/${item.id}`} style={{ color: 'white', textDecoration: 'none' }}>Update</Link>
               </CButton>
-              <CButton color="danger" onClick={(e) => handleDelete(item.id, e)}>
+              {/* <CButton color="danger" onClick={(e) => handleDelete(item.id, e)}>
                 Delete
-              </CButton>
+              </CButton> */}
             </CTableDataCell>
           </CTableRow>
         ))}
