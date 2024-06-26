@@ -1,4 +1,3 @@
-![linux foundation cer](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/a6fc2a0f-7fdd-4170-a454-fd1a9f889fd2)# BooksManagementTools
 
 
 The Book Management Tool is a web application designed to help users manage a collection of books. Users can add, update, deactivate, and view details of books in their collection. The application is built using React for the frontend and Node.js with Express for the backend, and it uses MySQL for the database.
