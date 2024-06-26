@@ -1,4 +1,4 @@
-# BooksManagementTools
+![linux foundation cer](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/a6fc2a0f-7fdd-4170-a454-fd1a9f889fd2)# BooksManagementTools
 
 
 The Book Management Tool is a web application designed to help users manage a collection of books. Users can add, update, deactivate, and view details of books in their collection. The application is built using React for the frontend and Node.js with Express for the backend, and it uses MySQL for the database.
@@ -9,6 +9,20 @@ The Book Management Tool is a web application designed to help users manage a co
 - Update Book Details: Users can update the details of any book in the collection.
 - Deactivate a Book: Users can deactivate any book from the collection.
 View Book Details: Users can click on a book to view detailed information, including the cover photo if available.!
+
+# New Fetures -
+- Student Master – List, Add Student, Update Student
+- Issue & Return of Books to Students & From Students
+- Report to see book issued to which student
+- Create single component based code for table list
+
+  # New Screenshots-
+![home](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/9a9632e1-d48b-46a0-b24f-772cf6ccda55)
+![issue](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/7f02975a-9a21-4044-b4a8-3f6564b7f01e)
+![issuedbookreport](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/904da03d-e2b7-45f7-a465-f2122be8df06)
+![return](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/7def9fa2-9400-4b25-a387-8f64ce152df5)
+![reutunbookreport](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/ede0408a-a691-4b4e-b8b8-8db7811aaa2b)
+
 
 # Screenshots-
 ![homepage](https://github.com/prasad-1803/BooksManagementTools/assets/113035638/b4079d73-7c2e-4cd7-b4af-54e2eb1005bf)
